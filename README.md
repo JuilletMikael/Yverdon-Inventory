@@ -33,7 +33,7 @@ docker compose
 Default values : 
 - POSTGRES_USER: infradon
 - POSTGRES_PASSWORD: infradon
-- POSTGRES_DB: infradon
+- POSTGRES_DB: yverdon-inventory
 
 ## Structure du répertoire
 
@@ -41,7 +41,28 @@ Default values :
 
 ```shell
 
-// A remplir
+.
+├── LICENSE                             # Liscence du projet
+├── README.md
+├── data                                # Données excel données
+│   ├── fournisseurs_contacts.xlsx
+│   ├── generate_data.py
+│   ├── interventions.xlsx
+│   ├── inventaire_mobilier.xlsx
+│   └── signalements.xlsx
+├── docker-compose.yml                  # Docker compose 
+├── initdb                      # Shéma de génération de base de données
+│   ├── 01-schema.sql
+│   └── 02-data.sql
+└── wiki                                # Documentation du projet
+    ├── README.md                       # Readme avec les détails
+    ├── briefs                          # Briefs
+    │   ├── brief_a_budget.md
+    │   ├── brief_b_delais.md
+    │   ├── brief_c_lampadaires.md
+    │   └── brief_d_bancs.md
+    └── diagams                         # Diagrames (MCD, MLD) 
+        └── MCD.puml
 
 ```
 
