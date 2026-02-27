@@ -1,1 +1,4 @@
 .DS_Store
+
+# ignore clone wiki project
+Yverdon-Inventory.wiki/
