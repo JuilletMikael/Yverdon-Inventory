@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36" version="29.6.1">
   <diagram name="Page-1" id="Pyoos74ePC7Cm_P1ol7m">
-    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1240" dy="791" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -110,12 +110,12 @@
           <mxGeometry height="30" width="140" y="90" as="geometry" />
         </mxCell>
         <mxCell id="eopvkV1u3uVYF-Y4Nh8Y-27" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Inventaire" vertex="1">
-          <mxGeometry height="300" width="150" x="304" y="270" as="geometry" />
+          <mxGeometry height="330" width="150" x="304" y="270" as="geometry" />
         </mxCell>
         <mxCell id="eopvkV1u3uVYF-Y4Nh8Y-28" parent="eopvkV1u3uVYF-Y4Nh8Y-27" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="PK id" vertex="1">
           <mxGeometry height="30" width="150" y="30" as="geometry" />
         </mxCell>
-        <mxCell id="CMqyTdnUtSEXOuWRDsoo-26" parent="eopvkV1u3uVYF-Y4Nh8Y-27" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="identifiant" vertex="1">
+        <mxCell id="CMqyTdnUtSEXOuWRDsoo-26" parent="eopvkV1u3uVYF-Y4Nh8Y-27" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="reference" vertex="1">
           <mxGeometry height="30" width="150" y="60" as="geometry" />
         </mxCell>
         <mxCell id="eopvkV1u3uVYF-Y4Nh8Y-29" parent="eopvkV1u3uVYF-Y4Nh8Y-27" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="type" vertex="1">
@@ -138,6 +138,9 @@
         </mxCell>
         <mxCell id="XLxkRLhB0b5yyAd5yVUf-17" parent="eopvkV1u3uVYF-Y4Nh8Y-27" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;color: rgb(0, 0, 0);&quot;&gt;remarque&lt;/font&gt;" vertex="1">
           <mxGeometry height="30" width="150" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="gFNj18QnHwvbWQAb592l-1" parent="eopvkV1u3uVYF-Y4Nh8Y-27" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;color: rgb(0, 0, 0);&quot;&gt;prix&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="150" y="300" as="geometry" />
         </mxCell>
         <mxCell id="eopvkV1u3uVYF-Y4Nh8Y-31" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Reporteur" vertex="1">
           <mxGeometry height="170" width="140" x="309" y="960" as="geometry" />
