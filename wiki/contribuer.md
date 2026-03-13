@@ -139,3 +139,71 @@ docker compose down -v
 
 Ajouter la base de données comme suer l'image : 
 ![paramètre image](./images/base-de-donnee-param.png "paramètre image")
+
+
+# Merge
+1. Créer une pull Request mais ne pas la valider avant que quelqu'un d'autre ne la valide.
+
+Mettre les bonne branches 
+- La branche visée/base (develop)
+- La branche de départ/compare = votre branche
+
+![pull request](./images/Pull-request.png "pull request")
+
+## Gérer les conflits
+Si un message apparait comme quoi vous avez des conflits. 
+
+Pour les régler dans vs-code suivez le guide suivant : 
+
+Aller dans la branch que l'on vise (develop)
+```shell
+git checkout develop
+```
+
+pull les nouvelles modifications
+```shell
+git pull
+```
+
+retourner dans la branche
+```shell
+git checkout feature/branche
+```
+
+Pour voir les branches : 
+```shell
+git branch --all
+```
+
+Merge develop dans la branche: 
+```shell
+git merge develop
+```
+
+À partir de là, si vous voulez annuler le merge : 
+```shell
+git merge --abort
+```
+
+Pour résoudre le merge il faut : 
+
+Ouvrir le fichier qui pose problème, il est en rouge ou brun dans l'IDE. 
+
+![pull request](./images/Pull-request.png "pull request")
+
+En bas, à droite, cliquez sur "resolve conflict" 
+
+Vous devriez voir 3 écrans qui contiennent :
+- En haut à gauche : le code dans la branche que vous voulez merge.
+- En haut à droite : le code de votre branche
+- En bas : le mélange des deux
+
+En haut en rouge, vous voyez une mention de la branche. 
+En jaune c'est les différences entre les fichiers.
+En bleu c'est les actions que vous pouvez faire (accepter celui-là, accepter les deux ou aucun).
+
+![pull request](./images/resolve-merge.png "pull request")
+
+Une fois résolue, vous pouvez valider. 
+
+Commit et push vos modifications.
