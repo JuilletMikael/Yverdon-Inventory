@@ -27,7 +27,7 @@ Dépendance et versions nécésaire pour ce projet :
 
 Création du container postgress : 
 ```shell
-docker compose
+docker compose up -d
 ```
 
 Default values : 
