@@ -32,3 +32,43 @@
 -- (12, 6.2, 191000000, 370000000),     -- Cars 2
 -- (13, 7.1, 237000000, 303000000),     -- Brave
 -- (14, 7.3, 268000000, 475000000);     -- Monsters University
+
+-- initdb/02-staging.sql
+
+
+
+CREATE SCHEMA IF NOT EXISTS staging;
+
+
+CREATE TABLE staging.inventaire_mobilier (
+    id TEXT, type TEXT, materiau TEXT, lieu TEXT,
+    latitude TEXT, longitude TEXT,
+    date_installation TEXT, etat TEXT, remarques TEXT
+);
+
+
+-- Import CSV — data/ est monté sous /data/ dans le conteneur
+COPY staging.inventaire_mobilier
+FROM '/data/inventaire_mobilier.csv'
+WITH (FORMAT csv, HEADER true, DELIMITER ';', ENCODING 'UTF8');
+
+
+
+
+CREATE SCHEMA IF NOT EXISTS staging;
+
+
+CREATE TABLE staging.signalements (
+    date TEXT, signale_par TEXT, objet TEXT, description TEXT,
+    urgence TEXT, statut TEXT
+);
+
+
+-- Import CSV — data/ est monté sous /data/ dans le conteneur
+COPY staging.signalements
+FROM '/data/signalements.csv'
+WITH (FORMAT csv, HEADER true, DELIMITER ';', ENCODING 'UTF8');
+
+SELECT COUNT(*) FROM staging.inventaire_mobilier; 
+SELECT COUNT(*) FROM staging.signalements;  
+
