@@ -69,3 +69,6 @@ COPY staging.signalements
 FROM '/data/signalements.csv'
 WITH (FORMAT csv, HEADER true, DELIMITER ';', ENCODING 'UTF8');
 
+SELECT COUNT(*) FROM staging.inventaire_mobilier; 
+SELECT COUNT(*) FROM staging.signalements;  
+
