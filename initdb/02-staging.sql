@@ -1,3 +1,4 @@
+-- Active: 1774596950136@@127.0.0.1@5432@yverdon-inventory
 CREATE SCHEMA IF NOT EXISTS staging;
 
 CREATE TABLE staging.fournisseurs_contacts (
