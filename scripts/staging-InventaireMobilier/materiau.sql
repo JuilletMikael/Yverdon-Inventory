@@ -3,15 +3,18 @@
 
 --Aperçu colonne materiau
 SELECT materiau, COUNT(*) AS nb
-FROM inventaire_mobilier
+FROM staging.inventaire_mobilier
 GROUP BY
     materiau
 ORDER BY nb DESC;
 
 CREATE EXTENSION IF NOT EXISTS unaccent;
 
+INSERT INTO public.types_inventaires (libelle)
 SELECT DISTINCT
     unaccent (LOWER(materiau))
-FROM inventaire_mobilier
+FROM staging.inventaire_mobilier
 WHERE
     materiau IS NOT NULL;
+
+
