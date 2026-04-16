@@ -21,3 +21,4 @@ WHERE "date" IS NOT NULL;
 SELECT DISTINCT "date"
 FROM staging.signalements
 ORDER BY "date";
+
