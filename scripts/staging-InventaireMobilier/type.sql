@@ -6,18 +6,18 @@ GROUP BY
     type
 ORDER BY nb DESC;
 
-
-SELECT type,
+INSERT INTO public.types_inventaires (libelle)
+SELECT DISTINCT
             CASE
-            WHEN LOWER(TRIM(type)) ~ 'banc' THEN 'banc'
-            WHEN LOWER(TRIM(type)) ~ 'lampadaire' THEN 'lampadaire'
-            WHEN LOWER(TRIM(type)) ~ 'poubelle' THEN 'poubelle'
-            WHEN LOWER(TRIM(type)) ~ 'corbeille' THEN 'corbeille'
-            WHEN LOWER(TRIM(type)) ~ 'fontaine' THEN 'fontaine'
-            WHEN LOWER(TRIM(type)) ~ 'Borne' THEN 'borne EV'
-            WHEN LOWER(TRIM(type)) ~ 'panneau' THEN 'panneau'
+            WHEN LOWER(TRIM(type)) LIKE '%banc%' THEN 'banc'
+            WHEN LOWER(TRIM(type)) LIKE '%lampadaire%' THEN 'lampadaire'
+            WHEN LOWER(TRIM(type)) LIKE '%poubelle%' THEN 'poubelle'
+            WHEN LOWER(TRIM(type)) LIKE '%corbeille%' THEN 'corbeille'
+            WHEN LOWER(TRIM(type)) LIKE '%fontaine%' THEN 'fontaine'
+            WHEN LOWER(TRIM(type)) LIKE '%borne%' THEN 'borne EV'
+            WHEN LOWER(TRIM(type)) LIKE '%panneau%' THEN 'panneau'
             END
 
 FROM staging.inventaire_mobilier
 WHERE
-    materiau IS NOT NULL;
+    type IS NOT NULL;
