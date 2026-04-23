@@ -81,7 +81,7 @@ CREATE TABLE tickets (
 CREATE TABLE interventions (
     id SERIAL PRIMARY KEY,
     date DATE,
-    durée INT,
+    duree INT,
     remarques TEXT,
     id_tickets INT NOT NULL REFERENCES tickets(id),
     id_techniciens INT NOT NULL REFERENCES techniciens(id),
