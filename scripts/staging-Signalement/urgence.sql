@@ -1,4 +1,3 @@
--- Active: 1774596950136@@127.0.0.1@5432@yverdon-inventory@staging
 SELECT urgence, COUNT(*) AS nb
 FROM staging.signalements
 GROUP BY
