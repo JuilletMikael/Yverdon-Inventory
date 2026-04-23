@@ -61,7 +61,6 @@ CREATE TABLE etats_factures (
     libelle VARCHAR(50)
 );
 
-
 -- 
 
 CREATE TABLE techniciens (
@@ -70,12 +69,6 @@ CREATE TABLE techniciens (
     prenom VARCHAR(100),
     telephone VARCHAR(20) CHECK (telephone ~ '^\+?[0-9 ]{7,20}$'),
     email VARCHAR(254) CHECK (email ~ '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
-);
-
-CREATE TABLE tickets (
-    id SERIAL PRIMARY KEY,
-    id_etats_tickets INT NOT NULL REFERENCES etats_tickets(id),
-    id_urgences INT NOT NULL REFERENCES urgences(id)
 );
 
 CREATE TABLE interventions (
@@ -157,4 +150,11 @@ CREATE TABLE signalements (
     id_reporteurs INT NOT NULL REFERENCES reporters(id),
     id_inventaires INT NOT NULL REFERENCES inventaires(id),
     id_types_signalements INT NOT NULL REFERENCES types_signalements(id)
+);
+
+CREATE TABLE tickets (
+    id SERIAL PRIMARY KEY,
+    id_etats_tickets INT NOT NULL REFERENCES etats_tickets(id),
+    id_urgences INT NOT NULL REFERENCES urgences(id)
+    id_inventaire INT NOT NULL REFERENCES inventaire(id)
 );
