@@ -1,5 +1,3 @@
--- Active: 1773394971258@@127.0.0.1@5438@yverdon-inventory
-
 SELECT type, COUNT(*) AS nb
 FROM staging.inventaire_mobilier
 GROUP BY
