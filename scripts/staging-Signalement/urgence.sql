@@ -1,28 +1,7 @@
-SELECT urgence, COUNT(*) AS nb
-FROM staging.signalements
-GROUP BY
-    urgence
-ORDER BY nb DESC;
-
-
-SELECT COUNT(*) as total_lignes
-FROM signalements;
-
-SELECT 
-    urgence,
-    COUNT(*) as nombre
-FROM signalements
-GROUP BY urgence
-ORDER BY nombre DESC;
-
+/*
+On as juste besoin de s'assurer qu'il n'y a pas de majuscule ou d'espace
+*/
+INSERT INTO public.urgences (libelle)
 SELECT DISTINCT LOWER(TRIM(urgence))
-FROM signalements
-WHERE urgence IS NOT NULL;
-
-UPDATE staging.signalements
-SET urgence = 'normal'
-WHERE urgence IS NULL OR urgence = '';
-
-SELECT COUNT(*) as cases_vides
-FROM staging.signalements
-WHERE urgence IS NULL OR urgence = '';
+    FROM staging.signalements
+    WHERE urgence IS NOT NULL;
