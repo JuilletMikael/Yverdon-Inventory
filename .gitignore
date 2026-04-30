@@ -2,3 +2,12 @@
 
 # ignore clone wiki project
 Yverdon-Inventory.wiki/
+
+# Excel temp files
+~$*.xlsx
+~$*.xls
+~$*.xlsm
+
+# Fichiers temporaires généraux
+~*
+*.tmp
