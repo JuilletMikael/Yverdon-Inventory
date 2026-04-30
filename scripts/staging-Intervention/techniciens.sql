@@ -1,11 +1,23 @@
-INSERT INTO public.techniciens (nom, prenom, telephone, email)
-SELECT 
-    SPLIT_PART(technicien, ' ', 2) AS nom,
-    SPLIT_PART(technicien, ' ', 1) AS prenom,
-    '+41791234567' AS telephone,
-    'jhon.doe@exmaple.com' AS email
-FROM (
-    SELECT DISTINCT technicien
-    FROM staging.interventions
-    WHERE technicien IS NOT NULL
-) t;
+INSERT INTO public.techniciens (prenom, nom)
+SELECT DISTINCT
+    CASE 
+        WHEN technicien ~ 'JM|Jean-Marc' 
+            THEN  'Jean-Marc'
+        WHEN technicien ~ 'Alves|Pedro'
+            THEN 'Pedro'
+        WHEN technicien ~ 'Koffi Marc'
+            THEN 'Marc'
+        WHEN technicien ~ 'stagiaire'
+            THEN 'stagiaire'
+    END AS prenom,
+    CASE 
+        WHEN technicien ~ 'JM|Jean-Marc' 
+            THEN  'Bonvin'
+        WHEN technicien ~ 'Alves|Pedro'
+            THEN 'Alves'
+        WHEN technicien ~ 'Koffi Marc'
+            THEN 'Koffi'
+        WHEN technicien ~ 'stagiaire'
+            THEN ''
+    END AS nom
+FROM staging.interventions;
