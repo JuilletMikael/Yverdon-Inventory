@@ -1,6 +1,7 @@
-INSERT INTO languages (libelle) VALUES
-('français'),
-('allemand'),
-('anglais'),
-('italien'),
-('romanche');
+INSERT INTO
+    languages (libelle)
+VALUES ('français'),
+    ('allemand'),
+    ('anglais'),
+    ('italien'),
+    ('romanche');

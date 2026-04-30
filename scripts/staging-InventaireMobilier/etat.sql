@@ -1,4 +1,5 @@
-INSERT INTO public.etats_inventaires (libelle)
+INSERT INTO
+    public.etats_inventaires (libelle)
 SELECT DISTINCT
     staging.unaccent(LOWER(etat))
 FROM staging.inventaire_mobilier
