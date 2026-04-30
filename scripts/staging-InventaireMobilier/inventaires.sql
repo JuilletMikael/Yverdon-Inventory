@@ -10,8 +10,8 @@ SELECT DISTINCT
     staging.id AS reference,
     ST_SetSRID(
         ST_MakePoint(
-            CAST(staging.longitude AS NUMERIC),
-            CAST(staging.latitude AS NUMERIC)
+            CAST(REPLACE(staging.longitude, ',', '.') AS NUMERIC),
+            CAST(REPLACE(staging.latitude, ',', '.') AS NUMERIC)
         ),
         4326
     ) AS position,
@@ -34,3 +34,12 @@ LEFT JOIN public.etats_inventaires etat_inv
 WHERE type_inv.id IS NOT NULL
   AND etat_inv.id IS NOT NULL
   AND staging.id IS NOT NULL;
+
+  SELECT COUNT(*) FROM public.inventaires;
+
+  SELECT DISTINCT type FROM staging.inventaire_mobilier;
+SELECT DISTINCT etat FROM staging.inventaire_mobilier;
+
+
+SELECT * FROM public.types_inventaires;
+SELECT * FROM public.etats_inventaires;
