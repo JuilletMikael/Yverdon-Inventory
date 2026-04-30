@@ -71,16 +71,6 @@ CREATE TABLE techniciens (
     email VARCHAR(254) CHECK (email ~ '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
 );
 
-CREATE TABLE interventions (
-    id SERIAL PRIMARY KEY,
-    date DATE,
-    duree INT,
-    remarques TEXT,
-    id_tickets INT NOT NULL REFERENCES tickets(id),
-    id_techniciens INT NOT NULL REFERENCES techniciens(id),
-    id_types_interventions INT NOT NULL REFERENCES types_interventions(id)
-);
-
 CREATE TABLE reporters (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(100),
@@ -143,6 +133,23 @@ CREATE TABLE inventaires (
     id_etats_inventaires INT NOT NULL REFERENCES etats_inventaires(id)
 );
 
+CREATE TABLE tickets (
+    id SERIAL PRIMARY KEY,
+    id_etats_tickets INT NOT NULL REFERENCES etats_tickets(id),
+    id_urgences INT NOT NULL REFERENCES urgences(id)
+    id_inventaire INT NOT NULL REFERENCES inventaire(id)
+);
+
+CREATE TABLE interventions (
+    id SERIAL PRIMARY KEY,
+    date DATE,
+    duree INT,
+    remarques TEXT,
+    id_tickets INT NOT NULL REFERENCES tickets(id),
+    id_techniciens INT NOT NULL REFERENCES techniciens(id),
+    id_types_interventions INT NOT NULL REFERENCES types_interventions(id)
+);
+
 CREATE TABLE signalements (
     id SERIAL PRIMARY KEY,
     description TEXT,
@@ -150,11 +157,4 @@ CREATE TABLE signalements (
     id_reporteurs INT NOT NULL REFERENCES reporters(id),
     id_inventaires INT NOT NULL REFERENCES inventaires(id),
     id_types_signalements INT NOT NULL REFERENCES types_signalements(id)
-);
-
-CREATE TABLE tickets (
-    id SERIAL PRIMARY KEY,
-    id_etats_tickets INT NOT NULL REFERENCES etats_tickets(id),
-    id_urgences INT NOT NULL REFERENCES urgences(id)
-    id_inventaire INT NOT NULL REFERENCES inventaire(id)
 );
