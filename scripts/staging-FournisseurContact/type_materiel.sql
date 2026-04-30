@@ -3,7 +3,6 @@ INSERT INTO public.types_materiels (libelle)
   SELECT DISTINCT
   CASE LOWER(TRIM(unaccent(type)))
     WHEN 'eclairage led' THEN 'eclairage'
-    WHEN 'bornes ev' THEN 'borne'
     WHEN 'bancs metal' THEN 'banc'
     WHEN 'bancs bois' THEN 'banc'
     WHEN 'bancs' THEN 'banc'
