@@ -1,12 +1,11 @@
 INSERT INTO
-    factures (
+    public.factures (
         reference_commande,
         date,
         cout_total,
         id_etats_factures,
         id_fournisseurs
     )
-
 SELECT DISTINCT
     LEFT(MD5(random()::text), 10) AS reference_commande,
     CASE
@@ -29,13 +28,13 @@ SELECT DISTINCT
     CASE
         WHEN LOWER(TRIM(s.type_intervention)) = 'nettoyage' THEN (
             SELECT fds.id_fournisseurs
-            FROM fournisseurs_de_services fds
+            FROM public.fournisseurs_de_services fds
             LIMIT 1
         )
         ELSE (
             SELECT fdm.id_fournisseurs
             FROM
-                types_materiels tm
+                public.types_materiels tm
                 INNER JOIN fournisseurs_de_materiels fdm ON fdm.id_types_materiels = tm.id
             WHERE
                 LOWER(tm.libelle) = CASE
@@ -53,8 +52,7 @@ SELECT DISTINCT
     END AS id_fournisseurs
 FROM staging.interventions s
 
-
-    INNER JOIN etats_factures ef ON LOWER(ef.libelle) = 'payee'
+INNER JOIN public.etats_factures ef ON LOWER(ef.libelle) = 'payee'
 WHERE
     CASE
         WHEN LOWER(TRIM(s.cout_materiel)) IN ('garantie', 'gratuit') THEN NULL

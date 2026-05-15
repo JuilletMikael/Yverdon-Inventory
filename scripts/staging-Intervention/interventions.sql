@@ -6,6 +6,7 @@ INSERT INTO public.interventions (
     id_tickets,
     id_types_interventions
 )
+
 SELECT DISTINCT
     CASE
         WHEN s.date ~ '^\d{2}\.\d{2}\.\d{4}$'
