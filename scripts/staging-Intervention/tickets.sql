@@ -4,7 +4,7 @@ SELECT DISTINCT
     etat.id AS id_etat_ticket,
     urgence.id AS id_urgence
 FROM
-    staging.signalements s
+    staging.signalements etats_tickets
     LEFT JOIN public.urgences urgence ON LOWER(TRIM(s.urgence)) LIKE '%' || urgence.libelle || '%'
     LEFT JOIN public.etats_tickets etat ON LOWER(TRIM(s.statut)) LIKE '%' || etat.libelle || '%'
     LEFT JOIN public.inventaires i ON i.id_types_inventaires = (
