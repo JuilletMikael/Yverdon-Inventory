@@ -8,10 +8,15 @@ INSERT INTO
     )
 SELECT DISTINCT
     LEFT(MD5(random()::text), 10) AS reference_commande,
+
     CASE
-        WHEN s.date ~ '^\d{2}\.\d{2}\.\d{4}$' THEN TO_DATE(s.date, 'DD.MM.YYYY')
-        WHEN s.date ~ '^\d{4}-\d{2}-\d{2}$' THEN TO_DATE(s.date, 'YYYY-MM-DD')
+        WHEN s.date ~ '^\d{2}\.\d{2}\.\d{4}$'
+            THEN TO_DATE(s.date, 'DD.MM.YYYY')
+
+        WHEN s.date ~ '^\d{4}-\d{2}-\d{2}$'
+            THEN TO_DATE(s.date, 'YYYY-MM-DD')
     END AS date,
+
     CASE
         WHEN LOWER(TRIM(s.cout_materiel)) IN ('garantie', 'gratuit') THEN NULL
         WHEN TRIM(s.cout_materiel) = '' THEN NULL
@@ -23,36 +28,37 @@ SELECT DISTINCT
                 'g'
             ) AS NUMERIC
         )
-    END,
-    ef.id,
-    CASE
-        WHEN LOWER(TRIM(s.type_intervention)) = 'nettoyage' THEN (
-            SELECT fds.id_fournisseurs
-            FROM public.fournisseurs_de_services fds
-            LIMIT 1
-        )
-        ELSE (
-            SELECT fdm.id_fournisseurs
-            FROM
-                public.types_materiels tm
-                INNER JOIN fournisseurs_de_materiels fdm ON fdm.id_types_materiels = tm.id
-            WHERE
-                LOWER(tm.libelle) = CASE
-                    WHEN LOWER(TRIM(s.objet)) LIKE '%banc%' THEN 'banc'
-                    WHEN LOWER(TRIM(s.objet)) LIKE '%lampadaire%' THEN 'lampadaire'
-                    WHEN LOWER(TRIM(s.objet)) LIKE '%poubelle%' THEN 'poubelle'
-                    WHEN LOWER(TRIM(s.objet)) LIKE '%corbeille%' THEN 'corbeille'
-                    WHEN LOWER(TRIM(s.objet)) LIKE '%fontaine%' THEN 'fontaine'
-                    WHEN LOWER(TRIM(s.objet)) LIKE '%borne%' THEN 'borne ev'
-                    WHEN LOWER(TRIM(s.objet)) LIKE '%panneau%' THEN 'panneau'
-                END
-            ORDER BY fdm.id
-            LIMIT 1
-        )
-    END AS id_fournisseurs
+    END AS cout_total,
+
+    ef.id AS id_etats_factures,
+
+    COALESCE(fds.id_fournisseurs, fdm.id_fournisseurs) AS id_fournisseurs
+
 FROM staging.interventions s
 
-INNER JOIN public.etats_factures ef ON LOWER(ef.libelle) = 'payee'
+INNER JOIN public.etats_factures ef
+    ON LOWER(ef.libelle) = 'payee'
+
+LEFT JOIN public.fournisseurs_de_services fds
+    ON LOWER(TRIM(s.type_intervention)) = 'nettoyage'
+
+LEFT JOIN public.types_materiels tm
+    ON LOWER(tm.libelle) = (
+        CASE
+            WHEN LOWER(public.unaccent (s.objet)) LIKE '%banc%' THEN 'banc'
+            WHEN LOWER(public.unaccent (s.objet)) LIKE '%lampadaire%' THEN 'lampadaire'
+            WHEN LOWER(public.unaccent (s.objet)) LIKE '%poubelle%' THEN 'poubelle'
+            WHEN LOWER(public.unaccent (s.objet)) LIKE '%corbeille%' THEN 'corbeille'
+            WHEN LOWER(public.unaccent (s.objet)) LIKE '%fontaine%' THEN 'fontaine'
+            WHEN LOWER(public.unaccent (s.objet)) LIKE '%borne%' THEN 'borne'
+            WHEN LOWER(public.unaccent (s.objet)) LIKE '%panneau%' THEN 'panneau'
+            WHEN LOWER(public.unaccent (s.objet)) LIKE '%eclairage%' THEN 'eclairage'
+            WHEN LOWER(public.unaccent (s.objet)) LIKE '%plantations%' THEN 'plantation'
+        END
+    )
+
+LEFT JOIN public.fournisseurs_de_materiels fdm
+    ON fdm.id_types_materiels = tm.id
 WHERE
     CASE
         WHEN LOWER(TRIM(s.cout_materiel)) IN ('garantie', 'gratuit') THEN NULL
