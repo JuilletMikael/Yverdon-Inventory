@@ -6,17 +6,18 @@
 \i ../scripts/staging-InventaireMobilier/etat.sql
 \i ../scripts/staging-InventaireMobilier/type.sql
 \i ../scripts/staging-InventaireMobilier/materiau.sql
--- loana type matériel 
--- loana types services
--- loana etat fournisseur
+
+\i ../scripts/staging-FournisseurContact/type_materiel.sql
+\i ../scripts/staging-FournisseurContact/types_services.sql
+\i ../scripts/staging-FournisseurContact/etats_fournisseurs.sql
 \i ../scripts/language.sql
 \i ../scripts/etat_facture.sql
 
 \i ../scripts/staging-Intervention/techniciens.sql
 \i ../scripts/staging-Signalement/reporter.sql
--- loana fournisseurs
--- loana fournisseur service 
--- loana fournisseur materiel
+\i ../scripts/staging-FournisseurContact/fournisseurs.sql
+\i ../scripts/staging-FournisseurContact/fournisseurs_de_materiels.sql
+\i ../scripts/staging-FournisseurContact/fournisseurs_de_services.sql
 \i ../scripts/factures.sql
 -- laura inventaire
 \i ../scripts/staging-Intervention/tickets.sql
