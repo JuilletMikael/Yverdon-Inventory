@@ -19,8 +19,8 @@
 \i ../scripts/staging-FournisseurContact/fournisseurs_de_materiels.sql
 \i ../scripts/staging-FournisseurContact/fournisseurs_de_services.sql
 \i ../scripts/factures.sql
--- laura inventaire
+\i ../scripts/staging-InventaireMobilier/inventaire.sql
 \i ../scripts/staging-Intervention/tickets.sql
 \i ../scripts/staging-Intervention/interventions.sql
-\i ../scripts/intervention_factures.sql
+\i ../scripts/intervention_facture.sql
 \i ../scripts/staging-Signalement/signalements.sql
