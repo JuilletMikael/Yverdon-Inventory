@@ -1,17 +1,22 @@
-INSERT INTO public.tickets (id_etats_tickets, id_urgences)
+INSERT INTO
+    public.tickets (
+        id_etats_tickets,
+        id_urgences,
+        id_inventaire
+    )
 SELECT DISTINCT
-    i.id AS id_inventaire,
     etat.id AS id_etat_ticket,
-    urgence.id AS id_urgence
+    urgence.id AS id_urgence,
+    i.id AS id_inventaire
 FROM
-    staging.signalements etats_tickets
+    staging.signalements s
     LEFT JOIN public.urgences urgence ON LOWER(TRIM(s.urgence)) LIKE '%' || urgence.libelle || '%'
     LEFT JOIN public.etats_tickets etat ON LOWER(TRIM(s.statut)) LIKE '%' || etat.libelle || '%'
-    LEFT JOIN public.inventaires i ON i.id_types_inventaires = (
-        SELECT ti.id
-        FROM public.types_inventaires ti
+    LEFT JOIN public.inventaires i ON i.reference = (
+        SELECT inv.id
+        FROM staging.inventaire_mobilier inv
         WHERE
-            LOWER(ti.libelle) = CASE
+            LOWER(inv.type) = CASE
                 WHEN LOWER(TRIM(s.objet)) LIKE '%banc%' THEN 'banc'
                 WHEN LOWER(TRIM(s.objet)) LIKE '%lampadaire%' THEN 'lampadaire'
                 WHEN LOWER(TRIM(s.objet)) LIKE '%poubelle%' THEN 'poubelle'
@@ -20,6 +25,16 @@ FROM
                 WHEN LOWER(TRIM(s.objet)) LIKE '%borne%' THEN 'borne ev'
                 WHEN LOWER(TRIM(s.objet)) LIKE '%panneau%' THEN 'panneau'
             END
+            AND LOWER(inv.lieu) = LOWER(
+                TRIM(
+                    REGEXP_REPLACE(
+                        s.objet,
+                        '.*près de ',
+                        '',
+                        'i'
+                    )
+                )
+            )
         LIMIT 1
     )
 WHERE
