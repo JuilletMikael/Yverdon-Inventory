@@ -1,3 +1,5 @@
+-- Ce script est 100% générer par IA dans le but de s'assurer que l'ensemble des script puisse fournir des valleurs finales de comptabilité.
+
 CREATE OR REPLACE VIEW public.v_cout_par_type_mobilier AS
 SELECT
 
