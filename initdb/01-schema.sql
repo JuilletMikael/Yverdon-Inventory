@@ -110,13 +110,6 @@ CREATE TABLE factures (
     id_fournisseurs INT NOT NULL REFERENCES fournisseurs(id)
 );
 
-CREATE TABLE interventions_factures (
-    id SERIAL PRIMARY KEY,
-    cout_total DECIMAL(15,2),
-    id_factures INT NOT NULL REFERENCES factures(id),
-    id_interventions INT NOT NULL REFERENCES interventions(id)
-);
-
 -- ===========================================
 -- TABLE: inventaires
 -- position en WGS84 (SRID 4326)
@@ -136,8 +129,8 @@ CREATE TABLE inventaires (
 CREATE TABLE tickets (
     id SERIAL PRIMARY KEY,
     id_etats_tickets INT NOT NULL REFERENCES etats_tickets(id),
-    id_urgences INT NOT NULL REFERENCES urgences(id)
-    id_inventaire INT NOT NULL REFERENCES inventaire(id)
+    id_urgences INT NOT NULL REFERENCES urgences(id),
+    id_inventaire INT NOT NULL REFERENCES inventaires(id)
 );
 
 CREATE TABLE interventions (
@@ -148,6 +141,13 @@ CREATE TABLE interventions (
     id_tickets INT NOT NULL REFERENCES tickets(id),
     id_techniciens INT NOT NULL REFERENCES techniciens(id),
     id_types_interventions INT NOT NULL REFERENCES types_interventions(id)
+);
+
+CREATE TABLE interventions_factures (
+    id SERIAL PRIMARY KEY,
+    cout_total DECIMAL(15,2),
+    id_factures INT NOT NULL REFERENCES factures(id),
+    id_interventions INT NOT NULL REFERENCES interventions(id)
 );
 
 CREATE TABLE signalements (

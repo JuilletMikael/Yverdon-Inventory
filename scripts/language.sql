@@ -1,5 +1,5 @@
 INSERT INTO
-    languages (libelle)
+    public.langues (libelle)
 VALUES ('français'),
     ('allemand'),
     ('anglais'),

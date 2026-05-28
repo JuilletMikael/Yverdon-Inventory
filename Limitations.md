@@ -1,73 +1,27 @@
-INSERT INTO public.interventions (
-    date,
-    duree,
-    remarques,
-    id_techniciens,
-    id_tickets,
-    id_types_interventions
-)
+# Limitations
 
-SELECT DISTINCT
-    CASE
-        WHEN s.date ~ '^\d{2}\.\d{2}\.\d{4}$'
-            THEN TO_DATE(s.date, 'DD.MM.YYYY')
-        WHEN s.date ~ '^\d{4}-\d{2}-\d{2}$'
-            THEN TO_DATE(s.date, 'YYYY-MM-DD')
-        WHEN s.date ~ '^\d{2}/\d{2}/\d{4}$'
-            THEN TO_DATE(s.date, 'DD/MM/YYYY')
-        ELSE NULL
-    END AS date_uniformisee,
+Dans le projet actuel, nous avons diverses limitations qui rendent le projet pas complètement implémentable.
 
-    CASE
-        WHEN s.duree ~ '^\d+\s*(min|mn)$'
-            THEN CAST(REGEXP_REPLACE(s.duree, '\D', '', 'g') AS INTEGER)
-        WHEN s.duree ~ '^\d+(\.\d+)?\s*h$'
-            THEN ROUND(
-                CAST(
-                    REGEXP_REPLACE(
-                        s.duree,
-                        '[^0-9\.]',
-                        '',
-                        'g'
-                    ) AS NUMERIC
-                ) * 60
-            )
-        WHEN s.duree ~ '^\d+h\d{2}$'
-            THEN (
-                CAST(REGEXP_REPLACE(s.duree, 'h.*', '') AS INTEGER) * 60
-                +
-                CAST(REGEXP_REPLACE(s.duree, '.*h', '') AS INTEGER)
-            )
-        WHEN LOWER(s.duree) = 'une matinée'
-            THEN 240
-        WHEN LOWER(s.duree) = 'une journée'
-            THEN 480
-        ELSE NULL
-    END AS duree_minute,
+## Interventions
 
-    s.remarques,
-    tech.id,
-    tk.id,
-    ti.id
+Lors de l’implémentation des interventions, une problématique est survenue au niveau du lien entre un objet de l’inventaire et l’objet spécifié dans la table des interventions.
 
-FROM staging.interventions s
+Dans la table `staging.interventions`, un objet est défini par son type et son lieu, par exemple : *"Banc Chemin de Maillefer"*.
 
-LEFT JOIN staging.signalements sig
-    ON LOWER(TRIM(public.unaccent(sig.objet)))
-    =
-    LOWER(TRIM(public.unaccent(s.objet)))
+Dans la table d’inventaire, nous définissons le type d’objet et son lieu. Par exemple, dans les données de base :
 
-LEFT JOIN public.techniciens tech
-    ON tech.nom = CASE
-        WHEN s.technicien ILIKE '%JM%' THEN 'Bonvin'
-        WHEN s.technicien ILIKE '%Jean-Marc%' THEN 'Bonvin'
-        WHEN s.technicien ILIKE '%Pedro%' THEN 'Alves'
-        WHEN s.technicien ILIKE '%P. Alves%' THEN 'Alves'
-        WHEN s.technicien ILIKE '%Alves Pedro%' THEN 'Alves'
-        WHEN s.technicien ILIKE '%Koffi%' THEN 'Koffi'
-        WHEN s.technicien ILIKE '%stagiaire%' THEN 'stagiaire'
-    END
+| id    | type | materiau | lieu              |
+| ----- | ---- | -------- | ----------------- |
+| B-001 | banc | bois     | Avenue de la Gare |
+| B-019 | Banc | metal    | Avenue de la Gare |
 
+Comme on peut le voir ici, il n’est pas possible de différencier précisément, depuis les interventions, sur quel objet une intervention a été réalisée.
+
+Ainsi, lors de l’insertion, nous avons choisi de prendre le premier élément de la liste par défaut. Ce n’est pas idéal et cela reste temporaire.
+
+De plus, le lien est complexe car nous devons à chaque fois normaliser les valeurs avant de les comparer, en fonction du type et du lieu.
+
+```sql
 INNER JOIN staging.inventaire_mobilier inv_stage
     ON (
         CASE
@@ -129,20 +83,35 @@ INNER JOIN staging.inventaire_mobilier inv_stage
         ORDER BY inv_stage2.id
         LIMIT 1
     )
+```
 
-INNER JOIN public.inventaires inv
-    ON inv.reference = inv_stage.id
+Finalement, cette partie du code filtre correctement les données mais elle provoque une perte de 13 valeurs.
 
-INNER JOIN public.tickets tk
-    ON tk.id_inventaire = inv.id
+Malheureusement, l’origine de cette perte n’a pas été identifiée. Nous en déduisons que si nous arrivons à faire des correspondances plus fidèles avec les identifiants des objets directement, cela pourrait régler le problème.
 
-INNER JOIN public.types_interventions ti ON LOWER(
-                TRIM(
-                    public.unaccent (s.type_intervention)
-                )
-            ) LIKE CONCAT(
-                '%', LOWER(
-                    TRIM(public.unaccent (ti.libelle))
-                ), '%'
-            );
+---
 
+## Signalement
+
+Pour les signalements, la problématique est exactement la même que précédemment pour les inventaires, ce qui entraîne les mêmes difficultés.
+
+---
+
+# Améliorations futures
+
+## Ticket
+
+La définition d’un ticket est floue, ce qui provoque quelques problèmes dans l’implémentation. En effet, un ticket regroupe plusieurs signalements et plusieurs interventions, mais nous ne savons pas clairement quand un ticket est ouvert ou fermé.
+
+Il agit ici davantage comme une table intermédiaire. On pourrait lui ajouter des dates de début et de fin, ce qui permettrait de rendre les valeurs plus uniques, de mieux filtrer les tickets, et d’identifier les interventions par ticket plutôt que par état.
+
+---
+
+## Lien entre fournisseurs et inventaire
+
+Le lien se fait via une facture, or nous n’avons pas implémenté ce lien étant donné qu’un inventaire ne peut pas avoir de facture.
+
+Nous disposons cependant d’un document qui permettrait de faire le lien entre fournisseur et inventaire. C’est une fonctionnalité à implémenter.
+
+
+> Note : texte corrigé par ChatGPT le 28 mai 2026 prompt "Corrige l'orthographe de ce texte : [texte]"

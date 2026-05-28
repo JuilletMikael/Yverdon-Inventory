@@ -28,7 +28,6 @@ COPY staging.inventaire_mobilier
 FROM '/data/inventaire_mobilier.csv'
 WITH (FORMAT csv, HEADER true, DELIMITER ';', ENCODING 'UTF8');
 
-CREATE SCHEMA IF NOT EXISTS staging;
 
 CREATE TABLE staging.signalements (
     date TEXT, signale_par TEXT, objet TEXT, description TEXT,
@@ -37,4 +36,13 @@ CREATE TABLE staging.signalements (
 
 COPY staging.signalements
 FROM '/data/signalements.csv'
+WITH (FORMAT csv, HEADER true, DELIMITER ';', ENCODING 'UTF8');
+
+CREATE TABLE staging.techniciens (
+    nom TEXT, prenom TEXT, telephone TEXT, email TEXT,
+    specialite TEXT, remarques TEXT
+);
+
+COPY staging.techniciens
+FROM '/data/techniciens_contacts.csv'
 WITH (FORMAT csv, HEADER true, DELIMITER ';', ENCODING 'UTF8');

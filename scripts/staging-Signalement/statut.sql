@@ -2,7 +2,7 @@ INSERT INTO
     public.etats_tickets (libelle)
 SELECT DISTINCT
     LOWER(
-        TRIM(staging.unaccent (statut))
+        TRIM(public.unaccent (statut))
     )
 FROM staging.signalements
 WHERE

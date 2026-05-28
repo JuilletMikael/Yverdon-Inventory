@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgis/postgis:16-3.4
+    build: .
     container_name: yverdon-inventory
     environment:
       POSTGRES_USER: infradon
@@ -12,6 +12,7 @@ services:
       - pgdata:/var/lib/postgresql/data
       - ./initdb:/docker-entrypoint-initdb.d
       - ./data:/data
+      - ./scripts:/scripts
 
 volumes:
   pgdata:
