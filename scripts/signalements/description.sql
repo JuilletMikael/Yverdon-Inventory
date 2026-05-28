@@ -1,5 +1,4 @@
-INSERT INTO
-    public.types_signalements (libelle)
+INSERT INTO public.types_signalements (libelle)
 SELECT DISTINCT
     CASE
         WHEN LOWER(description) ~ 'cassé|fissuré|fendu|manquant|décollé|grillée' THEN 'casse'
@@ -8,5 +7,4 @@ SELECT DISTINCT
         ELSE 'autre'
     END AS libelle
 FROM staging.signalements
-WHERE
-    description IS NOT NULL;
+WHERE description IS NOT NULL;

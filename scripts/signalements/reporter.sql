@@ -1,8 +1,6 @@
-/*
-Informations provisoires en attendant que le professeur distribue la feuille.
-*/
-INSERT INTO
-    public.reporters (nom, prenom)
+-- Informations provisoires en attendant que le professeur distribue la feuille.
+
+INSERT INTO public.reporters (nom, prenom)
 SELECT DISTINCT
     CASE
         WHEN signale_par ~ 'concierge école' THEN 'Rateur'
@@ -12,7 +10,7 @@ SELECT DISTINCT
         WHEN signale_par ~ 'Mme Dupont' THEN 'Dupont'
         WHEN signale_par ~ 'M. Pereira' THEN 'Pereira'
         WHEN signale_par ~ 'M. Keller' THEN 'Keller'
-        ELSE 'unknown citizen'
+        ELSE 'citoyen inconnu'
     END AS nom,
     CASE
         WHEN signale_par ~ 'concierge école' THEN 'Aspi'
@@ -22,6 +20,6 @@ SELECT DISTINCT
         WHEN signale_par ~ 'Mme Dupont' THEN 'Josette'
         WHEN signale_par ~ 'M. Pereira' THEN 'Mark'
         WHEN signale_par ~ 'M. Keller' THEN 'Patrick'
-        ELSE 'unknown citizen'
+        ELSE 'citoyen inconnu'
     END AS prenom
 FROM staging.signalements;

@@ -1,3 +1,7 @@
+-- id_etats_tickets : état du ticket
+-- id_urgences : niveau d’urgence du ticket (défault "normal")
+-- id_inventaire : objet concerné par le ticket (défault "en attente")
+
 INSERT INTO public.tickets (
     id_etats_tickets,
     id_urgences,

@@ -1,4 +1,5 @@
 INSERT INTO
     public.etats_factures (libelle)
-VALUES ('non payee'),
+VALUES 
+    ('non payee'),
     ('payee');

@@ -3,5 +3,4 @@ INSERT INTO
 SELECT DISTINCT
     public.unaccent(LOWER(etat))
 FROM staging.inventaire_mobilier
-WHERE
-    etat IS NOT NULL;
+WHERE etat IS NOT NULL;

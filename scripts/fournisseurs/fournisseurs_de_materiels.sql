@@ -1,3 +1,6 @@
+-- Séparer « valeur, valeur », puis normaliser le résultat pour l'associer au type « matériel ».
+-- CROSS JOIN - produit cartésien entre deux tables.
+
 INSERT INTO public.fournisseurs_de_materiels (
     id_fournisseurs,
     id_types_materiels
@@ -16,7 +19,6 @@ CROSS JOIN LATERAL unnest(
     string_to_array(s.type_materiel, ',')
 ) AS type
 
--- NORMALISATION ICI (CRUCIAL)
 CROSS JOIN LATERAL (
     SELECT CASE
         WHEN LOWER(TRIM(public.unaccent(type))) LIKE '%banc%' THEN 'banc'

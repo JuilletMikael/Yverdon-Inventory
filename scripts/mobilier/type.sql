@@ -1,5 +1,4 @@
-INSERT INTO
-    public.types_inventaires (libelle)
+INSERT INTO public.types_inventaires (libelle)
 SELECT DISTINCT
     CASE
         WHEN LOWER(TRIM(type)) LIKE '%banc%' THEN 'banc'
@@ -11,5 +10,4 @@ SELECT DISTINCT
         WHEN LOWER(TRIM(type)) LIKE '%panneau%' THEN 'panneau'
     END
 FROM staging.inventaire_mobilier
-WHERE
-    type IS NOT NULL;
+WHERE type IS NOT NULL;

@@ -1,3 +1,12 @@
+-- date : les dates sont converties dans un format uniforme
+-- duree : les durées sont converties en minutes
+-- id_techniciens : les différentes écritures des noms des techniciens sont normalisées puis reliées à leur identifiant
+-- id_types_interventions : le type d’intervention texte est associé au type d’intervention existant dans la table de référence
+-- id_tickets : le ticket est retrouvé en faisant correspondre l’objet et le lieu avec l’inventaire
+-- 1. Format l'objet de interventions et de inventaire_mobilier
+-- 2. On lie l'objet de interventions avec le lieux de inventaire_mobilier
+-- 3. Sous-requête qui sélectionne un seul inventaire possible
+
 INSERT INTO public.interventions (
     date,
     duree,
@@ -94,8 +103,10 @@ INNER JOIN staging.inventaire_mobilier inv_stage
             WHEN LOWER(inv_stage.type) LIKE '%eclairage%' THEN 'eclairage'
         END
     )
+
     AND LOWER(public.unaccent(s.objet))
     LIKE '%' || LOWER(public.unaccent(inv_stage.lieu)) || '%'
+
     AND inv_stage.id = (
         SELECT inv_stage2.id
         FROM staging.inventaire_mobilier inv_stage2
@@ -126,6 +137,7 @@ INNER JOIN staging.inventaire_mobilier inv_stage
         )
         AND LOWER(public.unaccent(s.objet))
         LIKE '%' || LOWER(public.unaccent(inv_stage2.lieu)) || '%'
+        
         ORDER BY inv_stage2.id
         LIMIT 1
     )
@@ -136,13 +148,7 @@ INNER JOIN public.inventaires inv
 INNER JOIN public.tickets tk
     ON tk.id_inventaire = inv.id
 
-INNER JOIN public.types_interventions ti ON LOWER(
-                TRIM(
-                    public.unaccent (s.type_intervention)
-                )
-            ) LIKE CONCAT(
-                '%', LOWER(
-                    TRIM(public.unaccent (ti.libelle))
-                ), '%'
-            );
+INNER JOIN public.types_interventions ti ON 
+    LOWER(TRIM(public.unaccent (s.type_intervention))) 
+    LIKE CONCAT('%', LOWER(TRIM(public.unaccent (ti.libelle))), '%');
 
