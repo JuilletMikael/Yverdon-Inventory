@@ -4,17 +4,29 @@ INSERT INTO public.signalements (
     id_reporteurs,
     id_types_signalements
 )
-SELECT DISTINCT
+
+SELECT 
     ss.description,
-    inv_pub.id AS id_inventaires,
+    inv.id AS id_inventaires,
     rep.id AS id_reporteurs,
     type_sig.id AS id_types_signalements
 FROM staging.signalements ss
-INNER JOIN staging.inventaire_mobilier t2
-    ON LOWER(ss.objet) LIKE '%' || LOWER(t2.type) || '%'
-   AND LOWER(ss.objet) LIKE '%' || LOWER(t2.lieu) || '%'
-INNER JOIN  public.inventaires inv_pub
-    ON inv_pub.reference = t2.id
+
+INNER JOIN staging.inventaire_mobilier inv_stage
+    ON LOWER(ss.objet) LIKE '%' || LOWER(inv_stage.type) || '%'
+    AND LOWER(public.unaccent(ss.objet)) LIKE '%' || LOWER(public.unaccent(inv_stage.lieu)) || '%'
+    AND inv_stage.id = (
+        SELECT inv_stage2.id
+        FROM staging.inventaire_mobilier inv_stage2
+        WHERE LOWER(ss.objet) LIKE '%' || LOWER(inv_stage2.type) || '%'
+        AND LOWER(public.unaccent(ss.objet)) LIKE '%' || LOWER(public.unaccent(inv_stage2.lieu)) || '%'
+        ORDER BY inv_stage2.id
+        LIMIT 1
+    )
+
+INNER JOIN public.inventaires inv
+    ON inv.reference = inv_stage.id
+
 LEFT JOIN public.reporters rep
     ON rep.nom = CASE
         WHEN ss.signale_par ~ 'concierge école' THEN 'Rateur'
